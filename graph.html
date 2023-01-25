@@ -50,6 +50,12 @@
         <!-- Add more rows as needed -->
       </tbody>
     </table>
+    <div>
+    <label for="startTime">Start Time:</label>
+    <input type="text" id="startTime">
+    <label for="endTime">End Time:</label>
+    <input type="text" id="endTime">
+    </div>
     <button onclick="updateChart()">Submit</button>
     <script>
       var chart;
@@ -64,8 +70,11 @@
           document.getElementById("expense2").value,
           // Add more values as needed
         ];
+        var startTime = document.getElementById("startTime").value;
+        var endTime = document.getElementById("endTime").value;
+        var timeRange = startTime + ' - ' + endTime;
         var data = {
-          labels: ['Time1', 'Time2', 'Time3', 'Time4', 'Time5'],
+          labels: [timeRange],
           datasets: [
             {
               label: 'Income (USD)',
@@ -76,6 +85,7 @@
             },
             {
               label: 'Expense (USD)',
+             
               data: expenseData,
               borderColor: 'red',
               backgroundColor: 'transparent',
