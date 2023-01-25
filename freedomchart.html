@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <style>
+      /* CSS for the chart container */
+      .chart-container {
+        width: 800px;
+        height: 600px;
+        margin: 0 auto;
+      }
+
+      /* CSS for the table */
+      table {
+        width: 800px;
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Income (USD)</th>
+          <th>Expense (USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Time 1</td>
+          <td><input type="text" id="income1"></td>
+          <td><input type="text" id="expense1"></td>
+        </tr>
+        <tr>
+          <td>Time 2</td>
+          <td><input type="text" id="income2"></td>
+          <td><input type="text" id="expense2"></td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+    <button onclick="updateChart()">Submit</button>
+    <script>
+      var chart;
+      function updateChart() {
+        var incomeData = [
+          document.getElementById("income1").value,
+          document.getElementById("income2").value,
+          // Add more values as needed
+        ];
+        var expenseData = [
+          document.getElementById("expense1").value,
+          document.getElementById("expense2").value,
+          // Add more values as needed
+        ];
+        var data = {
+          labels: ['Time1', 'Time2', 'Time3', 'Time4', 'Time5'],
+          datasets: [
+            {
+              label: 'Income (USD)',
+              data: incomeData,
+              borderColor: 'black',
+              backgroundColor: 'transparent',
+              pointRadius: 0
+            },
+            {
+              label: 'Expense (USD)',
+              data: expenseData,
+              borderColor: 'red',
+              backgroundColor: 'transparent',
+              pointRadius: 0
+            }
+          ]
+        };
+
+        // check if chart is created or not
+        if (chart) {
+          chart.destroy();
+        }
+
+        // Get the canvas element
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Create the chart
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
