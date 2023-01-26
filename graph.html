@@ -31,80 +31,86 @@
     <table>
       <thead>
         <tr>
-          <th>Time</th>
+          <th>Year</th>
           <th>Income (USD)</th>
           <th>Expense (USD)</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Time 1</td>
-          <td><input type="text" id="income1"></td>
-          <td><input type="text" id="expense1"></td>
-        </tr>
-        <tr>
-          <td>Time 2</td>
-          <td><input type="text" id="income2"></td>
-          <td><input type="text" id="expense2"></td>
-        </tr>
+      <tbody id="data-table">
         <!-- Add more rows as needed -->
       </tbody>
     </table>
+    <div>
+    <label for="startTime">Start Time:</label>
+    <input type="text" id="startTime">
+    <label for="endTime">End Time:</label>
+    <input type="text" id="endTime">
+    </div>
     <button onclick="updateChart()">Submit</button>
     <script>
       var chart;
       function updateChart() {
-        var incomeData = [
-          document.getElementById("income1").value,
-          document.getElementById("income2").value,
-          // Add more values as needed
-        ];
-        var expenseData = [
-          document.getElementById("expense1").value,
-          document.getElementById("expense2").value,
-          // Add more values as needed
-        ];
+        var incomeData = [];
+        var expenseData = [];
+        var startTime = document.getElementById("startTime").value;
+        var endTime = document.getElementById("endTime").value;
+        var timeRange = endTime - startTime;
+        var table = document.getElementById("data-table");
+        // clear the table before adding new rows
+        table.innerHTML = "";
+        for (var i = 0; i <= timeRange; i++) {
+          var year = startTime + i;
+          var row = `
+            <tr>
+              <td>${year}</td>
+              <td><input type="text" id="income${i}"></td>
+              <td><input type="text" id="expense${i}"></td>
+            </tr>
+          `;
+          table.innerHTML += row;
+          incomeData.push(document.getElementById(`income${i}`).value);
+          expenseData.push(document.getElementById(`expense${i}`).value);
+        }
         var data = {
-          labels: ['Time1', 'Time2', 'Time3', 'Time4', 'Time5'],
+          labels: Array.from({length: timeRange + 1}, (_, i) => startTime + i),
           datasets: [
             {
               label: 'Income (USD)',
               data: incomeData,
               borderColor: 'black',
               backgroundColor: 'transparent',
-              pointRadius: 0
+              borderWidth: 2
             },
             {
               label: 'Expense (USD)',
               data: expenseData,
               borderColor: 'red',
               backgroundColor: 'transparent',
-              pointRadius: 0
+              borderWidth: 2
             }
           ]
         };
-
-        // check if chart is created or not
         if (chart) {
-          chart.destroy();
-        }
-
-        // Get the canvas element
-        var ctx = document.getElementById('myChart').getContext('2d');
-
-        // Create the chart
-        chart = new Chart(ctx, {
+        chart.data = data;
+        chart.update();
+        } else {
+          var ctx = document.getElementById('myChart').getContext('2d');
+          chart = new Chart(ctx, {
           type: 'line',
           data: data,
           options: {
             scales: {
-              y: {
-                beginAtZero: true
-              }
-            }
+    yAxes: [{
+        ticks: {
+            beginAtZero: true
+        }
+    }]
+}
           }
-        });
+          });
+          }
       }
-    </script>
+      </script>
+
   </body>
 </html>
