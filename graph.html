@@ -59,7 +59,7 @@
         // clear the table before adding new rows
         table.innerHTML = "";
         for (var i = 0; i <= timeRange; i++) {
-          var year = startTime + i;
+          var year = Number(startTime) + i;
           var row = `
             <tr>
               <td>${year}</td>
