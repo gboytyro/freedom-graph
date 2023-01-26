@@ -70,7 +70,7 @@
           table.innerHTML += row;
         }
         var data = {
-          labels: Array.from({length: timeRange + 1}, (_, i) => startTime + i),
+          labels: Array.from({length: timeRange + 1}, (_, i) => Number(startTime) + i),
           datasets: [
             {
               label: 'Income (USD)',
@@ -82,40 +82,34 @@
             {
               label: 'Expense (USD)',
               data: expenseData,
-              borderColor: 'red',
+              borderColor:'red',
               backgroundColor: 'transparent',
               borderWidth: 2
             }
           ]
         };
-        if (chart) {
-        chart.data = data;
-        chart.update();
-        } else {
-          var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx = document.getElementById('myChart').getContext('2d');
           chart = new Chart(ctx, {
           type: 'line',
           data: data,
           options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-              }]
-            }
+          scales: {
+          y: {
+          beginAtZero: true
+          }
+          }
           }
           });
-        }
-      }
-      function storeIncomeData(input, index) {
-        incomeData[index] = input.value;
-      }
-      function storeExpenseData(input, index) {
-        expenseData[index] = input.value;
-      }
-    </script>
-    
+          }
+function storeIncomeData(input, index) {
+incomeData[index] = input.value;
+chart.update();
+}
+function storeExpenseData(input, index) {
+expenseData[index] = input.value;
+chart.update();
+}
+</script>
 
   </body>
 </html>
