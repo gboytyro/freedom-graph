@@ -42,9 +42,9 @@
     </table>
     <div>
     <label for="startTime">Start Time:</label>
-    <input type="text" id="startTime">
+    <input type="text" id="startTime" value="1">
     <label for="endTime">End Time:</label>
-    <input type="text" id="endTime">
+    <input type="text" id="endTime" value="10">
     </div>
     <button onclick="updateChart()">Submit</button>
     <script>
@@ -60,54 +60,60 @@
         table.innerHTML = "";
         for (var i = 0; i <= timeRange; i++) {
           var year = Number(startTime) + i;
+          var incomeVal = 10 + (10 * i);
+          var expenseVal = 10 + (5 * i);
           var row = `
             <tr>
               <td>${year}</td>
-              <td><input type="text" id="income${i}" onchange="storeIncomeData(this, ${i})"></td>
-              <td><input type="text" id="expense${i}" onchange="storeExpenseData(this, ${i})"></td>
+              <td><input type="text" id="income${i}" value="${incomeVal}" onchange="storeIncomeData(this, ${i})"></td>
+              <td><input type="text" id="expense${i}" value="${expenseVal}" onchange="storeExpenseData(this, ${i})"></td>
             </tr>
           `;
           table.innerHTML += row;
         }
         var data = {
           labels: Array.from({length: timeRange + 1}, (_, i) => Number(startTime) + i),
-          datasets: [
-            {
-              label: 'Income (USD)',
-              data: incomeData,
-              borderColor: 'black',
-              backgroundColor: 'transparent',
-              borderWidth: 2
-            },
-            {
-              label: 'Expense (USD)',
-              data: expenseData,
-              borderColor:'red',
-              backgroundColor: 'transparent',
-              borderWidth: 2
-            }
-          ]
-        };
-        var ctx = document.getElementById('myChart').getContext('2d');
-          chart = new Chart(ctx, {
-          type: 'line',
-          data: data,
-          options: {
-          scales: {
-          y: {
-          beginAtZero: true
-          }
-          }
-          }
-          });
-          }
+          var datasets = [
+{
+label: 'Income',
+data: incomeData,
+backgroundColor: 'rgba(75, 192, 192, 0.2)',
+borderColor: 'rgba(75, 192, 192, 1)',
+borderWidth: 1
+},
+{
+label: 'Expense',
+data: expenseData,
+backgroundColor: 'rgba(255, 99, 132, 0.2)',
+borderColor: 'rgba(255, 99, 132, 1)',
+borderWidth: 1
+}
+];
+var options = {
+scales: {
+y: {
+beginAtZero: true
+}
+}
+}
+if (chart) {
+chart.destroy();
+}
+var ctx = document.getElementById('myChart').getContext('2d');
+chart = new Chart(ctx, {
+type: 'bar',
+data: {
+labels: labels,
+datasets: datasets
+},
+options: options
+});
+}
 function storeIncomeData(input, index) {
-incomeData[index] = input.value;
-chart.update();
+incomeData[index] = Number(input.value);
 }
 function storeExpenseData(input, index) {
-expenseData[index] = input.value;
-chart.update();
+expenseData[index] = Number(input.value);
 }
 </script>
 
