@@ -49,9 +49,9 @@
     <button onclick="updateChart()">Submit</button>
     <script>
       var chart;
+      var incomeData = [];
+      var expenseData = [];
       function updateChart() {
-        var incomeData = [];
-        var expenseData = [];
         var startTime = document.getElementById("startTime").value;
         var endTime = document.getElementById("endTime").value;
         var timeRange = endTime - startTime;
@@ -63,13 +63,11 @@
           var row = `
             <tr>
               <td>${year}</td>
-              <td><input type="text" id="income${i}"></td>
-              <td><input type="text" id="expense${i}"></td>
+              <td><input type="text" id="income${i}" onchange="storeIncomeData(this, ${i})"></td>
+              <td><input type="text" id="expense${i}" onchange="storeExpenseData(this, ${i})"></td>
             </tr>
           `;
           table.innerHTML += row;
-          incomeData.push(document.getElementById(`income${i}`).value);
-          expenseData.push(document.getElementById(`expense${i}`).value);
         }
         var data = {
           labels: Array.from({length: timeRange + 1}, (_, i) => startTime + i),
@@ -100,17 +98,24 @@
           data: data,
           options: {
             scales: {
-    yAxes: [{
-        ticks: {
-            beginAtZero: true
-        }
-    }]
-}
+              yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+              }]
+            }
           }
           });
-          }
+        }
       }
-      </script>
+      function storeIncomeData(input, index) {
+        incomeData[index] = input.value;
+      }
+      function storeExpenseData(input, index) {
+        expenseData[index] = input.value;
+      }
+    </script>
+    
 
   </body>
 </html>
