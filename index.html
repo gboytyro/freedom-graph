@@ -52,108 +52,109 @@
     </table>
     <button onclick="updateChart()">Submit</button>
     <script>
-     function updateChart() {
-  // Get the income data
-  var incomeData = [];
-  for (var i = 1; i <= table.rows.length; i++) {
-    incomeData.push(document.getElementById("income" + i).value);
-  }
+      var table; // Declare table variable globally
 
-  // Get the expense data
-  var expenseData = [];
-  for (var i = 1; i <= table.rows.length; i++) {
-    expenseData.push(document.getElementById("expense" + i).value);
-  }
-
-  // Create the chart data
-  var data = {
-    labels: ['Time1', 'Time2', 'Time3', 'Time4', 'Time5'],
-    datasets: [
-      {
-        label: 'Income (USD)',
-        data: incomeData,
-        borderColor: 'black',
-        backgroundColor: 'transparent',
-        pointRadius: 0
-      },
-      {
-        label: 'Expense (USD)',
-        data: expenseData,
-        borderColor: 'red',
-        backgroundColor: 'transparent',
-        pointRadius: 0
-      }
-    ]
-  };
-
-  // Check if chart is created or not
-  if (chart) {
-    chart.destroy();
-  }
-
-  // Get the canvas element
-  var ctx = document.getElementById('myChart').getContext('2d');
-
-  // Create the chart
-  chart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+      function updateChart() {
+        // Get the income data
+        var incomeData = [];
+        for (var i = 1; i <= table.rows.length; i++) {
+          incomeData.push(document.getElementById("income" + i).value);
         }
-      },
-      title: {
-        text: 'Income and Expense Chart'
-      },
-      xAxis: {
-        labels: {
-          rotate: 0
+
+        // Get the expense data
+        var expenseData = [];
+        for (var i = 1; i <= table.rows.length; i++) {
+          expenseData.push(document.getElementById("expense" + i).value);
         }
-      },
-      yAxis: {
-        labels: {
-          formatter: function(value) {
-            return '$' + value;
+
+        // Create the chart data
+        var data = {
+          labels: ['Time1', 'Time2', 'Time3', 'Time4', 'Time5'],
+          datasets: [
+            {
+              label: 'Income (USD)',
+              data: incomeData,
+              borderColor: 'black',
+              backgroundColor: 'transparent',
+              pointRadius: 0
+            },
+            {
+              label: 'Expense (USD)',
+              data: expenseData,
+              borderColor: 'red',
+              backgroundColor: 'transparent',
+              pointRadius: 0
+            }
+          ]
+        };
+
+        // Check if chart is created or not
+        if (chart) {
+          chart.destroy();
+        }
+
+        // Get the canvas element
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Create the chart
+        var chart = new Chart(ctx, {
+          type: 'line',
+          data: data,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            },
+            title: {
+              text: 'Income and Expense Chart'
+            },
+            xAxis: {
+              labels: {
+                rotate: 0
+              }
+            },
+            yAxis: {
+              labels: {
+                formatter: function(value) {
+                  return '$' + value;
+                }
+              }
+            }
           }
-        }
+        });
       }
-    }
-  });
-}
     </script>
    
     <script>
       function addForm() {
-  // Get the table element
-  var table = document.getElementById("table");
+        // Get the table element
+        table = document.getElementById("table");
 
-  // Create a new row
-  var row = document.createElement("tr");
+        // Create a new row
+        var row = document.createElement("tr");
 
-  // Create a new cell for the time
-  var timeCell = document.createElement("td");
-  timeCell.innerHTML = "Time " + (table.rows.length + 1);
+        // Create a new cell for the time
+        var timeCell = document.createElement("td");
+        timeCell.innerHTML = "Time " + (table.rows.length + 1);
 
-  // Create a new cell for the income input
-  var incomeCell = document.createElement("td");
-  incomeCell.innerHTML = "<input type='text' id='income" + (table.rows.length + 1) + "'>";
+        // Create a new cell for the income input
+        var incomeCell = document.createElement("td");
+        incomeCell.innerHTML = "<input type='text' id='income" + (table.rows.length + 1) + "'>";
 
-  // Create a new cell for the expense input
-  var expenseCell = document.createElement("td");
-  expenseCell.innerHTML = "<input type='text' id='expense" + (table.rows.length + 1) + "'>";
+        // Create a new cell for the expense input
+        var expenseCell = document.createElement("td");
+        expenseCell.innerHTML = "<input type='text' id='expense" + (table.rows.length + 1) + "'>";
 
-  // Add the row to the table
-  table.appendChild(row);
+        // Add the row to the table
+        table.appendChild(row);
 
-  // Add the cells to the row
-  row.appendChild(timeCell);
-  row.appendChild(incomeCell);
-  row.appendChild(expenseCell);
-}
-
+        // Add the cells to the row
+        row.appendChild(timeCell);
+        row.appendChild(incomeCell);
+        row.appendChild(expenseCell);
+      }
     </script>
-     <button onclick="addForm()">Add Form</button>
+    <button onclick="addForm()">Add Form</button>
   </body>
 </html>
