@@ -101,6 +101,21 @@
               y: {
                 beginAtZero: true
               }
+            },
+            title: {
+              text: 'Income and Expense Chart'
+            },
+            xAxis: {
+              labels: {
+                rotate: 0
+              }
+            },
+            yAxis: {
+              labels: {
+                formatter: function(value) {
+                  return '$' + value;
+                }
+              }
             }
           }
         });
